@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextInputLayout.FilledDisable" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+<!--        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.TextInputEditText.FilledBox</item>-->
+
+<!--        <item name="boxStrokeColor">@color/m3_textfield_stroke_color</item>-->
+<!--        <item name="boxStrokeErrorColor">?attr/colorError</item>-->
+        <item name="boxBackgroundColor">@color/grey_field</item>
+<!--        <item name="helperTextTextColor">@color/m3_textfield_indicator_text_color</item>-->
+<!--        <item name="counterTextColor">@color/m3_textfield_indicator_text_color</item>-->
+<!--        <item name="counterOverflowTextColor">?attr/colorError</item>-->
+<!--        <item name="hintTextColor">@color/m3_textfield_label_color</item>-->
+<!--        <item name="android:textColorHint">@color/m3_textfield_label_color</item>-->
+<!--        <item name="placeholderTextColor">@color/m3_textfield_indicator_text_color</item>-->
+<!--        <item name="prefixTextColor">@color/m3_textfield_indicator_text_color</item>-->
+<!--        <item name="suffixTextColor">@color/m3_textfield_indicator_text_color</item>-->
+<!--        <item name="errorTextColor">?attr/colorError</item>-->
+<!--        <item name="errorIconTint">?attr/colorError</item>-->
+<!--        <item name="startIconTint">@color/m3_textfield_indicator_text_color</item>-->
+<!--        <item name="endIconTint">@color/m3_textfield_indicator_text_color</item>-->
+
+<!--        <item name="counterTextAppearance">?attr/textAppearanceBodySmall</item>-->
+<!--        <item name="counterOverflowTextAppearance">?attr/textAppearanceBodySmall</item>-->
+<!--        <item name="errorTextAppearance">?attr/textAppearanceBodySmall</item>-->
+<!--        <item name="helperTextTextAppearance">?attr/textAppearanceBodySmall</item>-->
+<!--        <item name="hintTextAppearance">?attr/textAppearanceBodySmall</item>-->
+<!--        <item name="placeholderTextAppearance">?attr/textAppearanceBodyLarge</item>-->
+<!--        <item name="prefixTextAppearance">?attr/textAppearanceTitleMedium</item>-->
+<!--        <item name="suffixTextAppearance">?attr/textAppearanceTitleMedium</item>-->
+<!--        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Material3.TextField.Filled</item>-->
+    </style>
+
+    <style name="Theme_Dialog" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">95%</item>
+        <item name="android:windowMinWidthMinor">95%</item>
+        <item name="colorAccent">@color/ktc_blue</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/cancel_red</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/ktc_blue</item>
+    </style>
+
+</resources>

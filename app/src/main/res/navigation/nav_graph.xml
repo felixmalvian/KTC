@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.zenex.ktc.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_createFaultReportFragment"
+            app:destination="@id/createFaultReportFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_faultReportFragment"
+            app:destination="@id/faultReportFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_ejoFragment"
+            app:destination="@id/ejoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createEjoFragment"
+            app:destination="@id/createEjoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createFaultReportFragment"
+        android:name="com.zenex.ktc.fragment.CreateFaultReportFragment"
+        android:label="fragment_create_fault_report"
+        tools:layout="@layout/fragment_create_fault_report" >
+        <action
+            android:id="@+id/action_createFaultReportFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/faultReportFragment"
+        android:name="com.zenex.ktc.fragment.FaultReportFragment"
+        android:label="fragment_fault_report"
+        tools:layout="@layout/fragment_fault_report" >
+        <action
+            android:id="@+id/action_faultReportFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_faultReportFragment_to_assignMechanicFragment"
+            app:destination="@id/assignMechanicFragment">
+            <argument
+                android:name="report_no"
+                app:argType="string" />
+
+            <argument
+                android:name="asset_id"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/ejoFragment"
+        android:name="com.zenex.ktc.fragment.EjoFragment"
+        android:label="fragment_ejo"
+        tools:layout="@layout/fragment_ejo" >
+        <action
+            android:id="@+id/action_ejoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createEjoFragment"
+        android:name="com.zenex.ktc.fragment.CreateEjoFragment"
+        android:label="fragment_create_ejo"
+        tools:layout="@layout/fragment_create_ejo" >
+        <action
+            android:id="@+id/action_createEjoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/assignMechanicFragment"
+        android:name="com.zenex.ktc.fragment.AssignMechanicFragment"
+        android:label="fragment_assign_mechanic"
+        tools:layout="@layout/fragment_assign_mechanic" >
+        <argument
+            android:name="report_no"
+            app:argType="string" />
+
+        <argument
+            android:name="asset_id"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_assignMechanicFragment_to_faultReportFragment"
+            app:destination="@id/faultReportFragment"
+            app:popUpTo="@id/faultReportFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

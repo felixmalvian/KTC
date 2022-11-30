@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="ktc_blue">#194288</color>
+    <color name="ktc_blue_shade">#EAF2FF</color>
+    <color name="grey_field">#F3F2F2</color>
+    <color name="blue_ticked">#daeffd</color>
+    <color name="yellow_pending">#FEFFC2</color>
+    <color name="cancel_red">#EE5757</color>
+    <color name="green_completed">#b2dd9b</color>
+    <color name="red_rejected">#ffa1a1</color>
+
+</resources>
