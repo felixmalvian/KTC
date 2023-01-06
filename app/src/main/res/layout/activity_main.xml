@@ -40,6 +40,7 @@
             android:text="User ID"
             android:fontFamily="@font/sfuitext_semibold"/>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintEnabled="false">
@@ -56,6 +57,7 @@
             android:text="Password"
             android:fontFamily="@font/sfuitext_semibold"/>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="password_toggle"
@@ -81,6 +83,15 @@
             android:layout_marginTop="50dp"
             android:text="LOGIN"
             android:backgroundTint="@color/ktc_blue"/>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressCircle"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:indeterminate="true" />
     </LinearLayout>
 
 
