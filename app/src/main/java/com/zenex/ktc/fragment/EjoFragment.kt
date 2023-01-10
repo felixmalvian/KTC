@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import com.zenex.ktc.R
 import com.zenex.ktc.adapter.ListReportAdapter
+import com.zenex.ktc.data.DummyData
 import com.zenex.ktc.databinding.FragmentEjoBinding
 import java.time.LocalDate
 import kotlin.collections.ArrayList
@@ -19,6 +20,8 @@ import kotlin.collections.ArrayList
 class EjoFragment : Fragment() {
     private var _binding: FragmentEjoBinding? = null
     private val binding get() = _binding!!
+
+    private val dummyData = DummyData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +33,10 @@ class EjoFragment : Fragment() {
     ): View {
         _binding = FragmentEjoBinding.inflate(layoutInflater, container, false)
 
-        val testItem = ArrayList<String>()
-        testItem.add("ART123")
-        testItem.add("BR457")
-        testItem.add("EX456")
-        testItem.add("AC546")
-        testItem.add("RD64")
-        testItem.add("BR9")
+        dummyData.addTestItem()
+        val testItem = dummyData.testItem
+        setRecyclerView(testItem, "New")
+        setButtonToggle(testItem)
 
         setRecyclerView(testItem, "In Progress")
         setButtonToggle(testItem)

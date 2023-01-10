@@ -379,16 +379,17 @@
                 android:text="EJO Type:"
                 android:layout_weight="2"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEjoType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                app:hintEnabled="false"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="--SELECT--"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+                    android:hint="--SELECT--" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -433,16 +434,17 @@
                 android:text="Main Work Center:"
                 android:layout_weight="2"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilMainWorkCenter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                app:hintEnabled="false"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="--SELECT--"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+                    android:hint="--SELECT--"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
