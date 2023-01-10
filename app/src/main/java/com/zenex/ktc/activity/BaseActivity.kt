@@ -10,12 +10,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.zenex.ktc.R
+import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.ActivityBaseBinding
 
 class BaseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBaseBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+
+    var userData: UserData? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,8 @@ class BaseActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        userData = intent.getSerializableExtra("data") as UserData
 
         navController = navHostFragment.navController
 //        appBarConfiguration = AppBarConfiguration(navController.graph)

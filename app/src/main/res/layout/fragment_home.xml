@@ -37,6 +37,7 @@
                 android:text="Welcome, "
                 android:fontFamily="@font/sfuitext_bold"/>
             <TextView
+                android:id="@+id/tvLoginName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SG0002 - Lee Kim Seng"

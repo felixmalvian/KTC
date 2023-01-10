@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.zenex.ktc.activity.BaseActivity
+import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
     private var _binding:FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    var userData: UserData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +25,11 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         setButtonDirection()
+
+        val activity = activity as BaseActivity
+        userData = activity.userData
+
+        binding.tvLoginName.text = userData?.AC_LoginName
 
         // Inflate the layout for this fragment
         return binding.root
