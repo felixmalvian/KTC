@@ -54,6 +54,7 @@
                 android:text="Reported By:"
                 android:layout_weight="1"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilReportedBy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
@@ -84,15 +85,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="6"
-                style="@style/TextInputLayout.FilledDisable">
+                android:layout_weight="6">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:clickable="false"
-                    android:padding="5dp"
-                    android:text="98765432"/>
+                    android:padding="5dp"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

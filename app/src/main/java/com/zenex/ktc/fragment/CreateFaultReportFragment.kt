@@ -10,11 +10,13 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.zenex.ktc.R
 import com.zenex.ktc.activity.BaseActivity
+import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.FragmentCreateFaultReportBinding
 
 class CreateFaultReportFragment : Fragment() {
     private var _binding: FragmentCreateFaultReportBinding? = null
     private val binding get() = _binding!!
+    var userData: UserData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,10 @@ class CreateFaultReportFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCreateFaultReportBinding.inflate(layoutInflater, container, false)
+
+        val activity = activity as BaseActivity
+        userData = activity.userData
+        setInitialData()
 
         binding.clMain.setOnClickListener {
             val act = activity as BaseActivity
@@ -48,6 +54,11 @@ class CreateFaultReportFragment : Fragment() {
         return binding.root
     }
 
+
+    private fun setInitialData() {
+        binding.tilReportedBy.editText?.setText(userData?.AC_LoginName)
+
+    }
 
     @SuppressLint("ResourceAsColor")
     private fun setBreakdownItem(){
