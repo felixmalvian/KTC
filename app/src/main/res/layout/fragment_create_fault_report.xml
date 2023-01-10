@@ -138,16 +138,17 @@
                 android:text="Site Code:"
                 android:layout_weight="1"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilSiteCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                app:hintEnabled="false"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="--SELECT--"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+                    android:hint="--SELECT--" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -165,15 +166,17 @@
                 android:text="Asset ID:"
                 android:layout_weight="1"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAssetId"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                app:hintEnabled="false"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="Smart Search Asset ID"/>
+                    android:hint="Smart Search"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -199,7 +202,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter Hourmeter"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -284,16 +288,17 @@
                 android:text="Working Condition:"
                 android:layout_weight="2"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilWorkingCondition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                app:hintEnabled="false"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="--SELECT--"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+                    android:hint="--SELECT--" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
         <LinearLayout
@@ -310,17 +315,17 @@
                 android:text="Accident:"
                 android:layout_weight="2"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAccident"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                app:hintEnabled="false">
-                <com.google.android.material.textfield.TextInputEditText
+                app:hintEnabled="false"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-
-                    android:hint="--SELECT--"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+                    android:hint="--SELECT--" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

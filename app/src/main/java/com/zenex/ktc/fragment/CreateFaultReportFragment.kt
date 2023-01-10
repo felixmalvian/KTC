@@ -6,15 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.zenex.ktc.R
 import com.zenex.ktc.activity.BaseActivity
+import com.zenex.ktc.data.DummyData
 import com.zenex.ktc.databinding.FragmentCreateFaultReportBinding
 
 class CreateFaultReportFragment : Fragment() {
     private var _binding: FragmentCreateFaultReportBinding? = null
     private val binding get() = _binding!!
+
+    private val dummyData = DummyData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +48,19 @@ class CreateFaultReportFragment : Fragment() {
             val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToHomeFragment()
             this.findNavController().navigate(direction)
         }
+
+        dummyData.addTestSite()
+        val testSite = dummyData.testSite
+        setDropdownList(binding.tilSiteCode.editText, testSite)
+
+        dummyData.addYesNo()
+        val yesNo = dummyData.yesNo
+        setDropdownList(binding.tilWorkingCondition.editText, yesNo)
+        setDropdownList(binding.tilAccident.editText, yesNo)
+
+        dummyData.addTestItem()
+        val testItem = dummyData.testItem
+        setDropdownList(binding.tilAssetId.editText, testItem)
 
         setBreakdownItem()
 
@@ -142,4 +161,9 @@ class CreateFaultReportFragment : Fragment() {
         }
     }
 
+    private fun setDropdownList(view: EditText?, data: ArrayList<String>){
+        val actView = (view as? AutoCompleteTextView)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_list, data)
+        actView?.setAdapter(arrayAdapter)
+    }
 }
