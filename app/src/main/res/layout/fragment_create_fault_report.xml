@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sfuitext_bold"
-        android:text="Fault Report 23"
+        android:text="New Fault Report"
         android:textSize="20sp"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +84,7 @@
                 android:text="Contact No:"
                 android:layout_weight="1"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilContactNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6">
@@ -107,6 +108,7 @@
                 android:text="Date &amp; Time:"
                 android:layout_weight="1"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDateAndTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
@@ -188,6 +190,7 @@
                 android:text="Hourmeter:"
                 android:layout_weight="1"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilHourmeter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
@@ -334,6 +337,7 @@
                 android:gravity="center_vertical"
                 android:text="Breakdown Description:"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBreakdownDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="false">
@@ -461,10 +465,15 @@
 <!--                    android:backgroundTint="@color/grey_field"/>-->
 
 <!--            </GridLayout>-->
-            <androidx.compose.ui.platform.ComposeView
-                android:id="@+id/ComposeView"
+<!--            <androidx.compose.ui.platform.ComposeView-->
+<!--                android:id="@+id/ComposeView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+            <LinearLayout
+                android:id="@+id/llBreakdownItem"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
         </LinearLayout>
 

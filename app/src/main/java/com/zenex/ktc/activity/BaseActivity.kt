@@ -12,6 +12,9 @@ import androidx.navigation.ui.navigateUp
 import com.zenex.ktc.R
 import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.ActivityBaseBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class BaseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBaseBinding
@@ -30,6 +33,7 @@ class BaseActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
         userData = intent.getSerializableExtra("data") as UserData
+        userData?.getSiteList(this)
 
         navController = navHostFragment.navController
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -57,4 +61,5 @@ class BaseActivity : AppCompatActivity() {
             )
         }
     }
+
 }
