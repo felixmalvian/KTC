@@ -221,15 +221,34 @@ class UserData: Serializable {
     }
 
 
-    private fun populateFaultReportList(fragment: Fragment){
+    private fun populateFaultReportList(fragment: Fragment, firstLoad: Boolean, currentScreen: String){
         if (fragment is FaultReportFragment){
-            fragment.setFirstLoad(faultReportNewList)
+            if (firstLoad){
+                fragment.setFirstLoad(faultReportNewList)
+            }
+
             fragment.setButtonToggleNew(faultReportNewList)
             fragment.setButtonToggleInProgress(faultReportInProgressList)
             fragment.setButtonToggleCompleted(faultReportCompletedList)
+
+            when (currentScreen){
+                "New" -> fragment.setRecyclerView(faultReportNewList, currentScreen)
+                "In Progress" -> fragment.setRecyclerView(faultReportInProgressList, currentScreen)
+                "Completed" -> fragment.setRecyclerView(faultReportCompletedList, currentScreen)
+            }
         }
     }
-    fun getFaultReportList(ctx: Context, fragment: Fragment, status: String) {
+    fun getFaultReportList(
+        ctx: Context,
+        fragment: Fragment,
+        status: String,
+        assetId: String,
+        siteCode: String,
+        dateFrom: String,
+        dateTo: String,
+        firstLoad: Boolean,
+        currentScreen: String
+    ) {
         if (faultReportNewList.isNullOrEmpty() || faultReportInProgressList.isNullOrEmpty() || faultReportCompletedList.isNullOrEmpty()){
             val statusSent = when (status) {
                 "New" -> "DRAFT"
@@ -240,6 +259,10 @@ class UserData: Serializable {
 
             val paramGetFaultReportList = ParamGetFaultReportList()
             paramGetFaultReportList.status = statusSent
+            paramGetFaultReportList.asset_id = assetId
+            paramGetFaultReportList.site_code = siteCode
+            paramGetFaultReportList.date_from = dateFrom
+            paramGetFaultReportList.date_to = dateTo
 
             requestFaultReportList = RetrofitClient.instance.getFaultReportList(paramGetFaultReportList)
             requestFaultReportList?.enqueue(object: Callback<ParamGetFaultReportListResponse>{
@@ -259,7 +282,7 @@ class UserData: Serializable {
                             "In Progress" -> {faultReportInProgressList = body.data}
                             "Completed" -> {faultReportCompletedList = body.data}
                         }
-                        populateFaultReportList(fragment)
+                        populateFaultReportList(fragment, firstLoad, currentScreen)
                     }
                 }
 
@@ -275,7 +298,7 @@ class UserData: Serializable {
             })
         }
         else {
-            populateFaultReportList(fragment)
+            populateFaultReportList(fragment, firstLoad, currentScreen)
         }
     }
 
