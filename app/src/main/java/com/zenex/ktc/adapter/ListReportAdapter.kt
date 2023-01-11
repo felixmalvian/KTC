@@ -10,18 +10,16 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TableLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.zenex.ktc.R
+import com.zenex.ktc.api.param.response.ParamGetFaultReportListResponse
 import com.zenex.ktc.fragment.FaultReportFragment
-import com.zenex.ktc.fragment.FaultReportFragmentDirections
 
 class ListReportAdapter(
     private val ctx: Context,
-    private val items: ArrayList<String>,
+    private val items: ArrayList<ParamGetFaultReportListResponse.Data>?,
     private val type: String,
     private val screen: String,
     private val fragment: Fragment
@@ -33,6 +31,7 @@ class ListReportAdapter(
         val tvSite: TextView = itemView.findViewById(R.id.tvSite)
         val tvAssetId: TextView = itemView.findViewById(R.id.tvAssetId)
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
+        val tvHourmeter: TextView = itemView.findViewById(R.id.tvHourmeter)
 
         val btnDropdown: ImageButton = itemView.findViewById(R.id.btnDropdown)
         val btnFile: ImageButton = itemView.findViewById(R.id.btnFile)
@@ -47,16 +46,14 @@ class ListReportAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.tvFaultReportNo.text = "$screen ${position + 15}"
+        val item = items!![position]
+        holder.tvFaultReportNo.text = "${item.FR_No}"
         var dropdown = true
         holder.btnDropdown.setOnClickListener{
             if (dropdown){
-//                Toast.makeText(ctx, "Dropping down..", Toast.LENGTH_SHORT).show()
                 holder.btnDropdown.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
                 holder.tlDetails.visibility = VISIBLE
             } else {
-//                Toast.makeText(ctx, "Dropping down..", Toast.LENGTH_SHORT).show()
                 holder.btnDropdown.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
                 holder.tlDetails.visibility = GONE
             }
@@ -65,8 +62,8 @@ class ListReportAdapter(
 
         if (fragment is FaultReportFragment){
             holder.btnFile.setOnClickListener{
-                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToAssignMechanicFragment("${position + 15}", item)
-                fragment.findNavController().navigate(direction)
+//                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToAssignMechanicFragment("${item.FR_No}", item)
+//                fragment.findNavController().navigate(direction)
             }
         } else {
             holder.btnFile.visibility = GONE
@@ -79,11 +76,14 @@ class ListReportAdapter(
             "Completed" -> holder.cvHolder.setBackgroundResource(R.drawable.shape_background_cardview_green)
         }
 
-        holder.tvAssetId.text = item
+        holder.tvAssetId.text = item.Asset_Id
+        holder.tvSite.text = item.Req_Site
+        holder.tvDate.text = item.Req_Date
+        holder.tvHourmeter.text = "HM: ${item.Hourmeter}"
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items?.size ?: 0
     }
 
     override fun getItemId(position: Int): Long {

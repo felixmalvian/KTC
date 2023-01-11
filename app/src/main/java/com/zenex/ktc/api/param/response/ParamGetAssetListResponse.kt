@@ -1,9 +1,11 @@
 package com.zenex.ktc.api.param.response
 
+import com.zenex.ktc.data.AssetDetails
+
 class ParamGetAssetListResponse {
     var data: ArrayList<Data>? = null
     var assetList = ArrayList<String?>()
-    var assetListDesc = mutableMapOf("asset" to "category")
+    var assetListDesc = mutableMapOf<String?, AssetDetails>()
 
     class Data {
         var key: String? = null
@@ -14,7 +16,12 @@ class ParamGetAssetListResponse {
     fun loadAssetList(){
         for(item in data!!){
             assetList.add(item.key)
-            item.key?.let { item.label?.let { it1 -> assetListDesc.put(it, it1) } }
+            val hourmeter_string = item.HourMeter.toString()
+            var hourmeter = 0
+            if (hourmeter_string.isNotBlank()){
+                hourmeter = hourmeter_string.toInt()
+            }
+            assetListDesc[item.key] = AssetDetails(item.label, hourmeter)
         }
     }
 }

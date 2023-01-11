@@ -55,9 +55,9 @@ class EjoFragment : Fragment() {
     private fun setRecyclerView(item: ArrayList<String>, type: String){
         binding.rv.adapter = null
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
-        val adapter =ListReportAdapter(requireContext(), item, type, "EJO", this)
-        adapter.setHasStableIds(true)
-        binding.rv.adapter = adapter
+//        val adapter =ListReportAdapter(requireContext(), item, type, "EJO", this)
+//        adapter.setHasStableIds(true)
+//        binding.rv.adapter = adapter
     }
 
     @SuppressLint("SetTextI18n", "NewApi")

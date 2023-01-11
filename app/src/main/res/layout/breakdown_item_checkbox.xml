@@ -5,13 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <CheckBox
+    <com.google.android.material.chip.Chip
         android:id="@+id/cbBreakdownItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="breakdown item"
+        android:minHeight="60dp"
+        style="@style/Widget.Material3.Chip.Filter.Elevated"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <CheckBox-->
+<!--        android:id="@+id/cbBreakdownItem"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="breakdown item"-->
+<!--        android:minHeight="60dp"-->
+<!--        style="@style/Widget.Material3.Chip.Filter.Elevated"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

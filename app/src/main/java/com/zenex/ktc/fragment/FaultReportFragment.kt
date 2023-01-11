@@ -13,13 +13,17 @@ import com.google.android.material.textfield.TextInputLayout
 import com.zenex.ktc.R
 import com.zenex.ktc.activity.BaseActivity
 import com.zenex.ktc.adapter.ListReportAdapter
+import com.zenex.ktc.api.param.response.ParamGetFaultReportListResponse
 import com.zenex.ktc.data.DummyData
+import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.FragmentFaultReportBinding
 import java.time.LocalDate
 
 class FaultReportFragment : Fragment() {
     private var _binding: FragmentFaultReportBinding? = null
     private val binding get() = _binding!!
+
+    var userData: UserData? = null
 
     private val dummyData = DummyData()
 
@@ -33,16 +37,21 @@ class FaultReportFragment : Fragment() {
     ): View {
         _binding = FragmentFaultReportBinding.inflate(layoutInflater, container, false)
 
+        val activity = activity as BaseActivity
+        userData = activity.userData
+
         binding.clMain.setOnClickListener {
             val act = activity as BaseActivity
             act.hideSoftKeyboard()
             act.currentFocus?.clearFocus()
         }
 
-        dummyData.addTestItem()
-        val testItem = dummyData.testItem
-        setRecyclerView(testItem, "New")
-        setButtonToggle(testItem)
+//        dummyData.addTestItem()
+//        val testItem = dummyData.testItem
+//        setRecyclerView(testItem, "New")
+//        setButtonToggle(testItem)
+
+        loadFaultReport()
 
         dateOnTouch(binding.tilDateFrom)
         dateOnTouch(binding.tilDateTo)
@@ -50,13 +59,36 @@ class FaultReportFragment : Fragment() {
         return binding.root
     }
 
-    private fun setButtonToggle(item: ArrayList<String>){
+
+    private fun loadFaultReport(){
+        for (status in listOf("New", "In Progress", "Completed")){
+            userData?.getFaultReportList(requireContext(), this, status)
+        }
+    }
+
+    fun setButtonToggleNew(item: ArrayList<ParamGetFaultReportListResponse.Data>?){
         binding.btnNew.setOnClickListener { setRecyclerView(item, "New") }
+    }
+
+    fun setButtonToggleInProgress(item: ArrayList<ParamGetFaultReportListResponse.Data>?){
         binding.btnInProgress.setOnClickListener { setRecyclerView(item, "In Progress") }
+    }
+
+    fun setButtonToggleCompleted(item: ArrayList<ParamGetFaultReportListResponse.Data>?){
         binding.btnCompleted.setOnClickListener { setRecyclerView(item, "Completed") }
     }
 
-    private fun setRecyclerView(item: ArrayList<String>, type: String){
+    fun setFirstLoad(item: ArrayList<ParamGetFaultReportListResponse.Data>?){
+        setRecyclerView(item, "New")
+    }
+
+//    private fun setButtonToggle(item: ArrayList<String>){
+//        binding.btnNew.setOnClickListener { setRecyclerView(item, "New") }
+//        binding.btnInProgress.setOnClickListener { setRecyclerView(item, "In Progress") }
+//        binding.btnCompleted.setOnClickListener { setRecyclerView(item, "Completed") }
+//    }
+
+    private fun setRecyclerView(item: ArrayList<ParamGetFaultReportListResponse.Data>?, type: String){
         binding.rv.adapter = null
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
         val adapter = ListReportAdapter(requireContext(), item, type, "FR", this)

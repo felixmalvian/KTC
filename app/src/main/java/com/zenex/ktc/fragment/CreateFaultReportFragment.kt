@@ -1,6 +1,7 @@
 package com.zenex.ktc.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -8,21 +9,24 @@ import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
+import androidx.core.view.allViews
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.zenex.ktc.R
 import com.zenex.ktc.activity.BaseActivity
+import com.zenex.ktc.api.param.input.ParamCreateFaultReport
 import com.zenex.ktc.data.DummyData
 import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.FragmentCreateFaultReportBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 class CreateFaultReportFragment : Fragment() {
     private var _binding: FragmentCreateFaultReportBinding? = null
@@ -30,6 +34,7 @@ class CreateFaultReportFragment : Fragment() {
     var userData: UserData? = null
 
     var breakdownItemChecked = ArrayList<String>()
+    var reportStatus = ""
 
     private val dummyData = DummyData()
 
@@ -58,19 +63,16 @@ class CreateFaultReportFragment : Fragment() {
         }
 
         binding.btnSubmit.setOnClickListener {
-//            Toast.makeText(requireContext(), "$breakdownItemChecked", Toast.LENGTH_SHORT).show()
-            Toast.makeText(requireContext(), "Fault Report Submitted!", Toast.LENGTH_SHORT).show()
-
-            submitFaultReport()
+            reportStatus = "PROCESSING"
+            submitFaultReport("submit")
         }
         binding.btnSave.setOnClickListener {
-            Toast.makeText(requireContext(), "Fault Report Saved!", Toast.LENGTH_SHORT).show()
-            val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToHomeFragment()
-            this.findNavController().navigate(direction)
-//            addCheckboxBreakdown("TESTING")
+            reportStatus = "DRAFT"
+            submitFaultReport("save")
+//            Toast.makeText(requireContext(), "Fault Report Saved!", Toast.LENGTH_SHORT).show()
+//            val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToHomeFragment()
+//            this.findNavController().navigate(direction)
         }
-
-        setBreakdownItem()
 
         return binding.root
     }
@@ -124,103 +126,6 @@ class CreateFaultReportFragment : Fragment() {
         })
     }
 
-    @SuppressLint("ResourceAsColor")
-    private fun setBreakdownItem(){
-//        var cabinGlass = false
-//        binding.btnCabinGlass.setOnClickListener {
-//            if (!cabinGlass){
-//                binding.btnCabinGlass.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnCabinGlass.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            cabinGlass = !cabinGlass
-//        }
-//
-//        var bucket = false
-//        binding.btnBucket.setOnClickListener {
-//            if (!bucket){
-//                binding.btnBucket.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnBucket.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            bucket = !bucket
-//        }
-//
-//        var engine = false
-//        binding.btnEngine.setOnClickListener {
-//            if (!engine){
-//                binding.btnEngine.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnEngine.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            engine = !engine
-//        }
-//
-//        var hydraulicHose = false
-//        binding.btnHydraulicHose.setOnClickListener {
-//            if (!hydraulicHose){
-//                binding.btnHydraulicHose.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnHydraulicHose.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            hydraulicHose = !hydraulicHose
-//        }
-//
-//        var undercarriage = false
-//        binding.btnUndercarriage.setOnClickListener {
-//            if (!undercarriage){
-//                binding.btnUndercarriage.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnUndercarriage.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            undercarriage = !undercarriage
-//        }
-//
-//        var mainPump = false
-//        binding.btnMainPump.setOnClickListener {
-//            if (!mainPump){
-//                binding.btnMainPump.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnMainPump.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            mainPump = !mainPump
-//        }
-//
-//        var boomArm = false
-//        binding.btnBoomArm.setOnClickListener {
-//            if (!boomArm){
-//                binding.btnBoomArm.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnBoomArm.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            boomArm = !boomArm
-//        }
-//
-//        var attachment = false
-//        binding.btnAttachment.setOnClickListener {
-//            if (!attachment){
-//                binding.btnAttachment.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnAttachment.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            attachment = !attachment
-//        }
-//
-//        var others = false
-//        binding.btnOthers.setOnClickListener {
-//            if (!others){
-//                binding.btnOthers.setBackgroundColor(resources.getColor(R.color.blue_ticked))
-//            } else {
-//                binding.btnOthers.setBackgroundColor(resources.getColor(R.color.grey_field))
-//            }
-//            others = !others
-//        }
-        
-//        binding.ComposeView.setContent {
-//            BreakdownCheckbox(breakdownItem = "Attachment")
-//        }
-    }
-
     private fun setDropdownList(view: EditText?, data: ArrayList<String>?){
         if (data != null){
             val actView = (view as? AutoCompleteTextView)
@@ -229,9 +134,10 @@ class CreateFaultReportFragment : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun addCheckboxBreakdown(breakdownItem: String){
         val checkboxLayout = layoutInflater.inflate(R.layout.breakdown_item_checkbox, null)
-        val checkbox: CheckBox = checkboxLayout.findViewById(R.id.cbBreakdownItem)
+        val checkbox: Chip = checkboxLayout.findViewById(R.id.cbBreakdownItem)
         checkbox.text = breakdownItem
 
         checkbox.setOnClickListener{
@@ -241,11 +147,12 @@ class CreateFaultReportFragment : Fragment() {
                 breakdownItemChecked.remove(breakdownItem)
             }
         }
-        binding.llBreakdownItem.addView(checkboxLayout)
+        binding.cgBreakdownItem.addView(checkboxLayout)
     }
 
     fun addCheckboxBreakdown(breakdownItemList: ArrayList<String?>){
-        binding.llBreakdownItem.removeAllViews()
+        binding.cgBreakdownItem.removeAllViews()
+        breakdownItemChecked = ArrayList()
         for (item in breakdownItemList){
             if (item != null) {
                 addCheckboxBreakdown(item)
@@ -261,17 +168,110 @@ class CreateFaultReportFragment : Fragment() {
         userData?.getBreakdownItemList(requireContext(), assetID, this)
     }
 
-    private fun submitFaultReport(){
+    private fun submitFaultReport(btn: String){
         val issueStatus = checkNull(binding.tilBreakdownDescription.editText)
-        val hourmeterStatus = checkNull(binding.tilHourmeter.editText)
+//        val hourmeterStatus = checkNull(binding.tilHourmeter.editText)
+        val hourmeterStatus = checkHourmeter()
         val contactNoStatus = checkNull(binding.tilContactNo.editText)
         val siteCodeStatus = checkNull(binding.tilSiteCode.editText)
         val assetIdStatus = checkNull(binding.tilAssetId.editText)
         val workingConditionStatus = checkNull(binding.tilWorkingCondition.editText)
         val accidentStatus = checkNull(binding.tilAccident.editText)
+        val breakdownItemStatus = breakdownItemChecked.isNotEmpty()
 
+        val listStatus = listOf(issueStatus, hourmeterStatus, contactNoStatus, siteCodeStatus, assetIdStatus, workingConditionStatus, accidentStatus, breakdownItemStatus)
+        val predicate: (Boolean) -> Boolean = { it }
+        val checkStatus = listStatus.all(predicate)
+        if (checkStatus){
+            val paramCreateFaultReport = ParamCreateFaultReport()
+            paramCreateFaultReport.req_date = binding.tilDateAndTime.editText?.text.toString()
+            paramCreateFaultReport.req_site = binding.tilSiteCode.editText?.text.toString()
+            paramCreateFaultReport.requestor = binding.tilReportedBy.editText?.text.toString()
+            paramCreateFaultReport.status = reportStatus
+            paramCreateFaultReport.asset_category = userData?.getAssetCategory(binding.tilAssetId.editText?.text.toString())
+            paramCreateFaultReport.asset_id = binding.tilAssetId.editText?.text.toString()
+            paramCreateFaultReport.hourmeter = binding.tilHourmeter.editText?.text.toString()
+            paramCreateFaultReport.work_condition = binding.tilWorkingCondition.editText?.text.toString()
+            paramCreateFaultReport.issue = binding.tilBreakdownDescription.editText?.text.toString()
+            paramCreateFaultReport.contact_person = "GET FROM DB"
+            paramCreateFaultReport.contact_no = binding.tilContactNo.editText?.text.toString()
+            paramCreateFaultReport.loc = "GET FROM DB"
+            paramCreateFaultReport.submit_date = binding.tilDateAndTime.editText?.text.toString()
+            paramCreateFaultReport.incident = binding.tilAccident.editText?.text.toString()
+            paramCreateFaultReport.incident_rpt_track_no = ""
+            paramCreateFaultReport.foreman = ""
+            paramCreateFaultReport.wsho = ""
+            paramCreateFaultReport.create_by = binding.tilReportedBy.editText?.text.toString()
+            paramCreateFaultReport.breakdown_item = breakdownItemChecked
+
+            userData?.submitFaultReport(requireContext(), paramCreateFaultReport, this, btn)
+            loadingSubmit(true)
+        } else {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Submission Error")
+                .setMessage("Please check again. Make sure to fill the fields correctly.")
+                .show()
+        }
 //        val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToHomeFragment()
 //        this.findNavController().navigate(direction)
+    }
+
+    fun loadingSubmit(state: Boolean){
+        if (state){
+            binding.btnSave.visibility = GONE
+            binding.btnSubmit.visibility = GONE
+            binding.progressCircleSubmit.visibility = VISIBLE
+        } else {
+            binding.btnSave.visibility = VISIBLE
+            binding.btnSubmit.visibility = VISIBLE
+            binding.progressCircleSubmit.visibility = GONE
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun changeFaultReportNumber(number: String?){
+        binding.tvTitle.text = "Fault Report $number"
+        val rect = Rect(0, 0, requireView().width, requireView().height)
+        view?.requestRectangleOnScreen(rect, false)
+
+        Toast.makeText(requireContext(), "Fault Report Submitted!", Toast.LENGTH_SHORT).show()
+    }
+
+    fun changeFaultReportStatus(status: String){
+        binding.tvStatus.text = status
+        when (status){
+            "PROCESSING" -> { binding.cvStatus.setBackgroundResource(R.drawable.shape_background_cardview_yellow) }
+            "REJECTED" -> { binding.cvStatus.setBackgroundResource(R.drawable.shape_background_cardview_status_red) }
+        }
+    }
+
+    fun disableAllView(state: Boolean, btn: String){
+        for (children in requireView().allViews){
+            for (child in children.allViews){
+
+                if (child is Chip || child is TextView || child is CardView){
+                    child.isClickable = !state
+                    child.isFocusable = !state
+                }
+                else {
+                    child.isEnabled = !state
+                }
+
+            }
+        }
+        when (btn) {
+            "save" -> {
+                binding.btnSave.isEnabled = !state
+                binding.btnSubmit.isEnabled = state
+                binding.btnSubmit.isClickable = state
+                binding.btnSubmit.isFocusable = state
+            }
+
+            "submit" -> {
+                binding.btnSubmit.isEnabled = !state
+                binding.btnSave.isEnabled = !state
+            }
+        }
     }
 
     private fun checkNull(editText: EditText?): Boolean {
@@ -279,6 +279,28 @@ class CreateFaultReportFragment : Fragment() {
             editText?.error = "Cannot be blank"
             false
         } else { true }
+    }
+
+    private fun checkHourmeter(): Boolean{
+        val hourmeter_string = binding.tilHourmeter.editText?.text
+        var hourmeter = 0
+        if (hourmeter_string?.isNotBlank() == true && hourmeter_string.isNotEmpty()){
+            hourmeter = try {
+                hourmeter_string.toString().toInt()
+            } catch (e: Exception){
+                0
+            }
+        }
+        val prev_hm = userData?.getAssetHourmeter(binding.tilAssetId.editText?.text.toString())
+        return if ((prev_hm != null) && (hourmeter < prev_hm)){
+            binding.tilHourmeter.editText?.error = "Previous Hourmeter is $prev_hm"
+            false
+
+        } else {
+            true
+        }
+
+
     }
 
 }

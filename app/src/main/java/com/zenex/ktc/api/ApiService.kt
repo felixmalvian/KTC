@@ -1,15 +1,9 @@
 package com.zenex.ktc.api
 
 import com.zenex.ktc.Constant
-import com.zenex.ktc.api.param.input.ParamAssetBySite
-import com.zenex.ktc.api.param.input.ParamEmpty
-import com.zenex.ktc.api.param.input.ParamGetBreakdownItem
+import com.zenex.ktc.api.param.input.*
+import com.zenex.ktc.api.param.response.*
 import java.util.concurrent.TimeUnit
-import com.zenex.ktc.api.param.input.ParamLogin
-import com.zenex.ktc.api.param.response.ParamGetAssetListResponse
-import com.zenex.ktc.api.param.response.ParamGetBreakdownItemResponse
-import com.zenex.ktc.api.param.response.ParamGetSiteListResponse
-import com.zenex.ktc.api.param.response.ParamLoginResponse
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
@@ -33,6 +27,12 @@ interface ApiService {
 
     @POST("api/BreakdownEQM")
     fun getBreakdownItemList(@Body paramGetBreakdownItem: ParamGetBreakdownItem): Call<ParamGetBreakdownItemResponse>
+
+    @POST("api/CreateFaultReport")
+    fun createFaultReport(@Body paramCreateFaultReport: ParamCreateFaultReport): Call<ParamCreateFaultReportResponse>
+
+    @POST("api/GetFaultReportList")
+    fun getFaultReportList(@Body paramGetFaultReportList: ParamGetFaultReportList): Call<ParamGetFaultReportListResponse>
 }
 
 private class UvCookieJar: CookieJar {

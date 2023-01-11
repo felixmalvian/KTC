@@ -49,9 +49,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15/11/2022"
+                    android:fontFamily="@font/sfuitext_bold"
                     android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toStartOf="@+id/btnDropdown"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvHourmeter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HM: 123456"
+                    app:layout_constraintEnd_toEndOf="@id/tvDate"
+                    app:layout_constraintBottom_toBottomOf="parent
+"/>
 
                 <TextView
                     android:id="@+id/tvSite"

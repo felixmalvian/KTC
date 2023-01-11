@@ -62,4 +62,5 @@ class BaseActivity : AppCompatActivity() {
         }
     }
 
+
 }

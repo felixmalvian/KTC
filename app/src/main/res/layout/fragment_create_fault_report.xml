@@ -8,6 +8,8 @@
     android:layout_margin="20dp"
     tools:context=".fragment.CreateFaultReportFragment">
 
+
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -20,14 +22,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="110dp"
+        android:id="@+id/cvStatus"
+        android:layout_width="125dp"
         android:layout_height="30dp"
         android:backgroundTint="@color/grey_field"
-        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvTitle">
         <TextView
+            android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="DRAFT"
@@ -69,6 +72,38 @@
                     android:text="SG37855 - Alex Tan"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+<!--            <com.google.android.material.chip.ChipGroup-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Very long sentences change" />-->
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Engine"/>-->
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="HyDraulic system"/>-->
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Arm"/>-->
+<!--                <com.google.android.material.chip.Chip-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Track"/>-->
+
+<!--            </com.google.android.material.chip.ChipGroup>-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -241,33 +276,33 @@
 <!--                    android:gravity="center"/>-->
 <!--            </com.google.android.material.card.MaterialCardView>-->
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp">
-            <ImageView
-                android:layout_width="82dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sakura"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_marginEnd="10dp"/>
-            <ImageView
-                android:layout_width="82dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sakura"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_marginEnd="10dp"/>
-            <ImageView
-                android:layout_width="82dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sakura"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_marginEnd="10dp"/>
+<!--            <ImageView-->
+<!--                android:layout_width="82dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:src="@drawable/sakura"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:layout_marginEnd="10dp"/>-->
+<!--            <ImageView-->
+<!--                android:layout_width="82dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:src="@drawable/sakura"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:layout_marginEnd="10dp"/>-->
+<!--            <ImageView-->
+<!--                android:layout_width="82dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:src="@drawable/sakura"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:layout_marginEnd="10dp"/>-->
         </LinearLayout>
 
         <LinearLayout
@@ -364,116 +399,11 @@
                 android:layout_height="wrap_content"
                 android:text="Breakdown Item:"
                 android:layout_marginBottom="5dp"/>
-            
-<!--            <GridLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:columnCount="2">-->
 
-<!--                <Button-->
-<!--                    android:id="@+id/btnCabinGlass"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:text="Cabin Glass"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnBucket"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Bucket"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnEngine"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:text="Engine"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnHydraulicHose"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Hydraulic Hose"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnUndercarriage"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:text="Undercarriage"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnMainPump"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Main Pump"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnBoomArm"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:text="Boom/Arm"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnAttachment"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Attachment"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/btnOthers"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Others"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--                <Button-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Others"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    android:visibility="invisible"-->
-<!--                    style="@style/Widget.Material3.Button.TonalButton"-->
-<!--                    android:backgroundTint="@color/grey_field"/>-->
-
-<!--            </GridLayout>-->
-<!--            <androidx.compose.ui.platform.ComposeView-->
-<!--                android:id="@+id/ComposeView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"/>-->
-            <LinearLayout
-                android:id="@+id/llBreakdownItem"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgBreakdownItem"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -513,12 +443,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressCircleSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"/>
+
                 <Button
                     android:id="@+id/btnSubmit"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="Submit"
-                    android:backgroundTint="@color/ktc_blue"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 

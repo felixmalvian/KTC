@@ -10,8 +10,8 @@ class ParamCreateFaultReport {
     var hourmeter: String? = null
     var work_condition: String? = null
     var issue: String? = null
-    var conper: String? = null
-    var cntno: String? = null
+    var contact_person: String? = null
+    var contact_no: String? = null
     var loc: String? = null
     var submit_date: String? = null
     var incident: String? = null

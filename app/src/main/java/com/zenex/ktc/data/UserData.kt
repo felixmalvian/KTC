@@ -1,29 +1,17 @@
 package com.zenex.ktc.data
 
 import android.content.Context
-import android.content.Intent
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.zenex.ktc.R
-import com.zenex.ktc.activity.BaseActivity
 import com.zenex.ktc.api.RetrofitClient
-import com.zenex.ktc.api.param.input.ParamAssetBySite
-import com.zenex.ktc.api.param.input.ParamEmpty
-import com.zenex.ktc.api.param.input.ParamGetBreakdownItem
-import com.zenex.ktc.api.param.input.ParamLogin
-import com.zenex.ktc.api.param.response.ParamGetAssetListResponse
-import com.zenex.ktc.api.param.response.ParamGetBreakdownItemResponse
-import com.zenex.ktc.api.param.response.ParamGetSiteListResponse
+import com.zenex.ktc.api.param.input.*
+import com.zenex.ktc.api.param.response.*
 import com.zenex.ktc.fragment.CreateFaultReportFragment
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import com.zenex.ktc.fragment.FaultReportFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,8 +21,9 @@ class UserData: Serializable {
     private var requestSiteList: Call<ParamGetSiteListResponse>? = null
     private var requestAssetList: Call<ParamGetAssetListResponse>? = null
     private var requestBreakdownItemList: Call<ParamGetBreakdownItemResponse>? = null
+    private var requestFaultReportList: Call<ParamGetFaultReportListResponse>? = null
 
-    private var requestCreateFaultReport: Call<ParamGetBreakdownItemResponse>? = null
+    private var requestCreateFaultReport: Call<ParamCreateFaultReportResponse>? = null
 
 
     var AC_LoginName: String? = null
@@ -45,7 +34,14 @@ class UserData: Serializable {
     var siteList: ArrayList<String>? = null
 //    var assetList: ArrayList<ParamGetAssetListResponse.Data>? = null
     var assetList: ArrayList<String?>? = null
-    var assetListDesc = mutableMapOf("asset" to "category")
+
+    var assetListDesc = mutableMapOf<String?, AssetDetails>()
+
+    var faultReportNewList: ArrayList<ParamGetFaultReportListResponse.Data>? = ArrayList()
+    var faultReportInProgressList: ArrayList<ParamGetFaultReportListResponse.Data>? = ArrayList()
+    var faultReportCompletedList: ArrayList<ParamGetFaultReportListResponse.Data>? = ArrayList()
+
+
     var breakdownItemList = ArrayList<String?>()
 
     fun getSiteList(ctx: Context) {
@@ -119,9 +115,18 @@ class UserData: Serializable {
         })
     }
 
+    fun getAssetCategory(assetID: String): String? {
+        val assetDetails = assetListDesc[assetID]
+        return assetDetails?.category
+    }
+
+    fun getAssetHourmeter(assetID: String): Int? {
+        val assetDetails = assetListDesc[assetID]
+        return assetDetails?.hourmeter
+    }
 
     fun getBreakdownItemList(ctx: Context, assetID: String, fragment: CreateFaultReportFragment?){
-        val category = assetListDesc[assetID]
+        val category = getAssetCategory(assetID)
 
         if (category != null) {
             val paramGetBreakdownItem = ParamGetBreakdownItem()
@@ -143,7 +148,7 @@ class UserData: Serializable {
                         body.loadBreakdownItemList()
                         breakdownItemList = body.breakdownItemList
 
-                        if (breakdownItemList.size > 0 && fragment is CreateFaultReportFragment){
+                        if (fragment is CreateFaultReportFragment){
                             fragment.addCheckboxBreakdown(breakdownItemList)
                         }
                     }
@@ -161,6 +166,117 @@ class UserData: Serializable {
             })
         }
 
+    }
+
+    fun submitFaultReport(ctx: Context, paramCreateFaultReport: ParamCreateFaultReport, fragment: Fragment, btn: String) {
+        requestCreateFaultReport = RetrofitClient.instance.createFaultReport(paramCreateFaultReport)
+        requestCreateFaultReport?.enqueue(object: Callback<ParamCreateFaultReportResponse>{
+            override fun onResponse(
+                call: Call<ParamCreateFaultReportResponse>,
+                response: Response<ParamCreateFaultReportResponse>
+            ) {
+                if(response.code() != 200){
+                    AlertDialog.Builder(ctx)
+                        .setTitle("Error")
+                        .setMessage(response.code().toString())
+                        .show()
+                } else {
+                    val body = response.body()!!
+                    val data = body.data
+                    if (data != null){
+                        if (fragment is CreateFaultReportFragment){
+                            if (data.message_status == 0){
+                                AlertDialog.Builder(ctx)
+                                    .setTitle("Submit Failed")
+                                    .setMessage(data.fault_status)
+                                    .show()
+                            } else {
+                                fragment.changeFaultReportNumber(data.fault_no)
+                                fragment.changeFaultReportStatus(data.fault_status!!)
+                                fragment.disableAllView(true, btn)
+                            }
+                        }
+                    }
+
+                }
+
+                if (fragment is CreateFaultReportFragment){
+                    fragment.loadingSubmit(false)
+                }
+            }
+
+            override fun onFailure(call: Call<ParamCreateFaultReportResponse>, t: Throwable) {
+                if (!call.isCanceled) {
+                    AlertDialog.Builder(ctx)
+                        .setTitle("Error")
+                        .setMessage(t.message)
+                        .show()
+                }
+                if (fragment is CreateFaultReportFragment){
+                    fragment.loadingSubmit(false)
+                }
+            }
+
+        })
+    }
+
+
+    private fun populateFaultReportList(fragment: Fragment){
+        if (fragment is FaultReportFragment){
+            fragment.setFirstLoad(faultReportNewList)
+            fragment.setButtonToggleNew(faultReportNewList)
+            fragment.setButtonToggleInProgress(faultReportInProgressList)
+            fragment.setButtonToggleCompleted(faultReportCompletedList)
+        }
+    }
+    fun getFaultReportList(ctx: Context, fragment: Fragment, status: String) {
+        if (faultReportNewList.isNullOrEmpty() || faultReportInProgressList.isNullOrEmpty() || faultReportCompletedList.isNullOrEmpty()){
+            val statusSent = when (status) {
+                "New" -> "DRAFT"
+                "In Progress" -> "PROCESSING"
+                "Completed" -> "COMPLETED"
+                else -> ""
+            }
+
+            val paramGetFaultReportList = ParamGetFaultReportList()
+            paramGetFaultReportList.status = statusSent
+
+            requestFaultReportList = RetrofitClient.instance.getFaultReportList(paramGetFaultReportList)
+            requestFaultReportList?.enqueue(object: Callback<ParamGetFaultReportListResponse>{
+                override fun onResponse(
+                    call: Call<ParamGetFaultReportListResponse>,
+                    response: Response<ParamGetFaultReportListResponse>
+                ) {
+                    if(response.code() != 200){
+                        AlertDialog.Builder(ctx)
+                            .setTitle("Error")
+                            .setMessage(response.code().toString())
+                            .show()
+                    } else {
+                        val body = response.body()!!
+                        when (status){
+                            "New" -> {faultReportNewList = body.data}
+                            "In Progress" -> {faultReportInProgressList = body.data}
+                            "Completed" -> {faultReportCompletedList = body.data}
+                        }
+                        populateFaultReportList(fragment)
+                    }
+                }
+
+                override fun onFailure(call: Call<ParamGetFaultReportListResponse>, t: Throwable) {
+                    if (!call.isCanceled) {
+                        AlertDialog.Builder(ctx)
+                            .setTitle("Error")
+                            .setMessage(t.message)
+                            .show()
+                    }
+                }
+
+            })
+        }
+        else {
+            populateFaultReportList(fragment)
+        }
     }
 
 }
