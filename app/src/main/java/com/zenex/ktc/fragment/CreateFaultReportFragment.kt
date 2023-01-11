@@ -1,12 +1,19 @@
 package com.zenex.ktc.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.ContentValues
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -17,7 +24,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.view.allViews
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.zenex.ktc.R
 import com.zenex.ktc.activity.BaseActivity
@@ -25,8 +32,11 @@ import com.zenex.ktc.api.param.input.ParamCreateFaultReport
 import com.zenex.ktc.data.DummyData
 import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.FragmentCreateFaultReportBinding
+import java.io.FileDescriptor
+import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 class CreateFaultReportFragment : Fragment() {
     private var _binding: FragmentCreateFaultReportBinding? = null
@@ -74,6 +84,11 @@ class CreateFaultReportFragment : Fragment() {
 //            this.findNavController().navigate(direction)
         }
 
+        binding.btnUploadPhoto.setOnClickListener {
+//            activity.openCamera(this, 1001)
+            takePhotoAttachment()
+        }
+
         return binding.root
     }
 
@@ -89,6 +104,52 @@ class CreateFaultReportFragment : Fragment() {
         binding.tilDateAndTime.editText?.setText(formatted)
     }
 
+    private var imageUri: Uri? = null
+    private fun takePhotoAttachment() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "Attachment")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Att Desc")
+        imageUri = activity?.contentResolver?.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)// Create camera intent
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)// Launch intent
+        startActivityForResult(intent, 1001)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)// Callback from camera intent
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == 1001){
+                addPicture(imageUri)
+            }
+        }
+        else {
+            // Failed to take picture
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    fun addPicture(uri: Uri?) {
+        val imageViewLayout = layoutInflater.inflate(R.layout.attachment_picture, null)
+        val imageView: ImageView = imageViewLayout.findViewById(R.id.iv)
+//        imageView.setImageURI(uri)
+        val bm = uriToBitmap(uri)
+        imageView.setImageBitmap(bm)
+        binding.llPictureUpload.addView(imageView)
+    }
+
+    private fun uriToBitmap(selectedFileUri: Uri?): Bitmap? {
+        try {
+            val parcelFileDescriptor: ParcelFileDescriptor? =
+                selectedFileUri?.let { requireContext().contentResolver.openFileDescriptor(it, "r") }
+            val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+            parcelFileDescriptor?.close()
+            return image
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+    }
 
     private fun setSiteList(){
         setDropdownList(binding.tilSiteCode.editText, userData?.siteList)
