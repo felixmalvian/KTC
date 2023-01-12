@@ -1,6 +1,8 @@
 package com.zenex.ktc.api.param.input
 
 class ParamCreateFaultReport {
+    var fault_no: String? = null
+
     var req_date: String? = null
     var req_site: String? = null
     var requestor: String? = null

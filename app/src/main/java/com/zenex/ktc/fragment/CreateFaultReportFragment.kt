@@ -48,6 +48,8 @@ class CreateFaultReportFragment : Fragment() {
 
     private val dummyData = DummyData()
 
+    var faultNo: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -74,11 +76,11 @@ class CreateFaultReportFragment : Fragment() {
 
         binding.btnSubmit.setOnClickListener {
             reportStatus = "PROCESSING"
-            submitFaultReport("submit")
+            submitFaultReport("submit", faultNo)
         }
         binding.btnSave.setOnClickListener {
             reportStatus = "DRAFT"
-            submitFaultReport("save")
+            submitFaultReport("save", faultNo)
 //            Toast.makeText(requireContext(), "Fault Report Saved!", Toast.LENGTH_SHORT).show()
 //            val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToHomeFragment()
 //            this.findNavController().navigate(direction)
@@ -144,7 +146,8 @@ class CreateFaultReportFragment : Fragment() {
             val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
             val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
-            return image
+            return Bitmap.createScaledBitmap(image, 200, 200, true)
+
         } catch (e: IOException) {
             e.printStackTrace()
             return null
@@ -229,7 +232,7 @@ class CreateFaultReportFragment : Fragment() {
         userData?.getBreakdownItemList(requireContext(), assetID, this)
     }
 
-    private fun submitFaultReport(btn: String){
+    private fun submitFaultReport(btn: String, faultNo: String?){
         val issueStatus = checkNull(binding.tilBreakdownDescription.editText)
 //        val hourmeterStatus = checkNull(binding.tilHourmeter.editText)
         val hourmeterStatus = checkHourmeter()
@@ -245,6 +248,7 @@ class CreateFaultReportFragment : Fragment() {
         val checkStatus = listStatus.all(predicate)
         if (checkStatus){
             val paramCreateFaultReport = ParamCreateFaultReport()
+            paramCreateFaultReport.fault_no = faultNo
             paramCreateFaultReport.req_date = binding.tilDateAndTime.editText?.text.toString()
             paramCreateFaultReport.req_site = binding.tilSiteCode.editText?.text.toString()
             paramCreateFaultReport.requestor = binding.tilReportedBy.editText?.text.toString()
@@ -291,7 +295,8 @@ class CreateFaultReportFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     fun changeFaultReportNumber(number: String?){
-        binding.tvTitle.text = "Fault Report $number"
+        faultNo = number.toString()
+        binding.tvTitle.text = "Fault Report $faultNo"
         val rect = Rect(0, 0, requireView().width, requireView().height)
         view?.requestRectangleOnScreen(rect, false)
 
@@ -299,6 +304,7 @@ class CreateFaultReportFragment : Fragment() {
     }
 
     fun changeFaultReportStatus(status: String){
+
         binding.tvStatus.text = status
         when (status){
             "PROCESSING" -> { binding.cvStatus.setBackgroundResource(R.drawable.shape_background_cardview_yellow) }
