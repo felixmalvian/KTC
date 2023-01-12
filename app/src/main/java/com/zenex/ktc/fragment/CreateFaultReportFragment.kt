@@ -123,6 +123,7 @@ class CreateFaultReportFragment : Fragment() {
         reqDate: String?,
         reqSite: String?,
         requestor: String?,
+        contactNo: String?,
         status: String?,
         assetId: String?,
         assetCategory: String?,
@@ -137,6 +138,7 @@ class CreateFaultReportFragment : Fragment() {
         binding.tilDateAndTime.editText?.setText(reqDate)
         binding.tilSiteCode.editText?.setText(reqSite)
         binding.tilReportedBy.editText?.setText(requestor)
+        binding.tilContactNo.editText?.setText(contactNo)
         binding.tilAssetId.editText?.setText(assetId)
         binding.tilHourmeter.editText?.setText(hourmeter)
         binding.tilWorkingCondition.editText?.setText(workCondition)
@@ -274,6 +276,9 @@ class CreateFaultReportFragment : Fragment() {
     fun addCheckboxBreakdown(breakdownItemList: ArrayList<String?>, checkedBreakdown: ArrayList<String>?){
         binding.cgBreakdownItem.removeAllViews()
         breakdownItemChecked = ArrayList()
+        if (checkedBreakdown != null) {
+            breakdownItemChecked = checkedBreakdown
+        }
         for (item in breakdownItemList){
             if (item != null) {
                 addCheckboxBreakdown(item, checkedBreakdown)

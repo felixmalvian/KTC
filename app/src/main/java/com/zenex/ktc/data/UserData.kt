@@ -208,7 +208,13 @@ class UserData: Serializable {
                                 fragment.changeFaultReportNumber(data.fault_no)
                                 fragment.changeFaultReportStatus(data.fault_status!!)
                                 fragment.disableAllView(true, btn)
-                                Toast.makeText(ctx, "Fault Report Submitted!", Toast.LENGTH_SHORT).show()
+
+                                if (btn == "save"){
+                                    Toast.makeText(ctx, "Fault Report Saved!", Toast.LENGTH_SHORT).show()
+                                } else if (btn == "submit"){
+                                    Toast.makeText(ctx, "Fault Report Submitted!", Toast.LENGTH_SHORT).show()
+                                }
+
                                 val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToFaultReportFragment()
                                 fragment.findNavController().navigate(direction)
                             }
@@ -342,6 +348,7 @@ class UserData: Serializable {
                             body.req_date,
                             body.req_site,
                             body.requestor,
+                            body.contact_no,
                             body.status,
                             body.asset_id,
                             body.asset_category,
