@@ -1,6 +1,7 @@
 package com.zenex.ktc.adapter
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TableLayout
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -63,11 +65,18 @@ class ListReportAdapter(
         }
 
         if (fragment is FaultReportFragment){
-            holder.btnFile.setOnClickListener{
+            holder.tvFaultReportNo.setOnClickListener{
 //                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToAssignMechanicFragment("${item.FR_No}", item)
-                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToCreateFaultReportFragment(item.id)
+                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToCreateFaultReportFragment(item.id, item.Status)
                 fragment.findNavController().navigate(direction)
             }
+
+            holder.btnFile.setOnClickListener{
+                val dialog = Dialog(ctx, R.style.Theme_Dialog)
+                dialog.setContentView(R.layout.dialog_assign_mechanic_2)
+                dialog.show()
+            }
+
         } else {
             holder.btnFile.visibility = GONE
         }

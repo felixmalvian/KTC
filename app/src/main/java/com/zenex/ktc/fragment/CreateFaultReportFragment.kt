@@ -102,6 +102,20 @@ class CreateFaultReportFragment : Fragment() {
         if (mode == "edit"){
             val faultReportId = arguments?.get("id") as String?
             userData?.getFaultReportDetails(requireContext(), this, faultReportId)
+
+            when (arguments?.get("status")){
+                "PROCESSING" -> {
+                    disableAllView(true, null)
+                    binding.btnSubmit.visibility = GONE
+                    binding.btnSave.visibility = GONE
+                }
+
+                "COMPLETED" -> {
+                    disableAllView(true, null)
+                    binding.btnSubmit.visibility = GONE
+                    binding.btnSave.visibility = GONE
+                }
+            }
         }
     }
     fun loadFaultReport(
@@ -353,7 +367,7 @@ class CreateFaultReportFragment : Fragment() {
         }
     }
 
-    fun disableAllView(state: Boolean, btn: String){
+    fun disableAllView(state: Boolean, btn: String?){
         for (children in requireView().allViews){
             for (child in children.allViews){
 

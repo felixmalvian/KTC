@@ -58,8 +58,14 @@
                 android:name="mode"
                 app:argType="string"
                 android:defaultValue="edit"/>
+
             <argument
                 android:name="id"
+                app:argType="string"
+                app:nullable="true"/>
+
+            <argument
+                android:name="status"
                 app:argType="string"
                 app:nullable="true"/>
         </action>
