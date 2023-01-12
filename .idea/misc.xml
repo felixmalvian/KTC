@@ -26,10 +26,11 @@
         <entry key="..\:/Android Studio/KTC/app/src/main/res/layout/fragment_first.xml" value="0.358695652173913" />
         <entry key="..\:/Android Studio/KTC/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Android Studio/KTC/app/src/main/res/layout/fragment_listing.xml" value="0.33" />
+        <entry key="..\:/Users/malvi/AndroidStudioProjects/KTC/app/src/main/res/layout/fragment_fault_report.xml" value="0.12158054711246201" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

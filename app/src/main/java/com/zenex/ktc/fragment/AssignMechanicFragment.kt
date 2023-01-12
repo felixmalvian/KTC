@@ -86,21 +86,23 @@ class AssignMechanicFragment : Fragment() {
 
         val tilMechanicName: TextInputLayout = dialog.findViewById(R.id.tilMechanicName)
         val tilSpecialisation: TextInputLayout = dialog.findViewById(R.id.tilSpecialisation)
-        val tilWorkCenter: TextInputLayout = dialog.findViewById(R.id.tilWorkCenter)
-        val tilDateAssigned: TextInputLayout = dialog.findViewById(R.id.tilDateAssigned)
+//        val tilWorkCenter: TextInputLayout = dialog.findViewById(R.id.tilWorkCenter)
+//        val tilDateAssigned: TextInputLayout = dialog.findViewById(R.id.tilDateAssigned)
         val btnAssignMechanic: Button = dialog.findViewById(R.id.btnAssignMechanic)
 
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
         val formatted = current.format(formatter)
-        tilDateAssigned.editText?.setText(formatted.toString())
+//        tilDateAssigned.editText?.setText(formatted.toString())
 
         btnAssignMechanic.setOnClickListener{
             val assignedMechanic = MechanicDetails(
                 name=tilMechanicName.editText?.text.toString(),
                 specialisation=tilSpecialisation.editText?.text.toString(),
-                workCenter=tilWorkCenter.editText?.text.toString(),
-                dateAssigned=tilDateAssigned.editText?.text.toString(),
+//                workCenter=tilWorkCenter.editText?.text.toString(),
+                workCenter="",
+//                dateAssigned=tilDateAssigned.editText?.text.toString(),
+                dateAssigned="",
             )
             listAssignedMechanic.add(assignedMechanic)
             dialog.cancel()
