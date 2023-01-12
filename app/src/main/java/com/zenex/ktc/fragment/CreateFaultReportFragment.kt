@@ -43,7 +43,7 @@ class CreateFaultReportFragment : Fragment() {
     private val binding get() = _binding!!
     var userData: UserData? = null
 
-    var breakdownItemChecked = ArrayList<String>()
+    var breakdownItemChecked: ArrayList<String>? = ArrayList()
     var reportStatus = ""
 
     private val dummyData = DummyData()
@@ -91,9 +91,48 @@ class CreateFaultReportFragment : Fragment() {
             takePhotoAttachment()
         }
 
+        viewFaultReport()
+
         return binding.root
     }
 
+
+    private fun viewFaultReport(){
+        val mode = arguments?.get("mode")
+        if (mode == "edit"){
+            val faultReportId = arguments?.get("id") as String?
+            userData?.getFaultReportDetails(requireContext(), this, faultReportId)
+        }
+    }
+    fun loadFaultReport(
+        faultNo: String?,
+        reqDate: String?,
+        reqSite: String?,
+        requestor: String?,
+        status: String?,
+        assetId: String?,
+        assetCategory: String?,
+        hourmeter: String?,
+        workCondition: String?,
+        issue: String?,
+        incident: String?,
+        breakdownItem: ArrayList<String>?
+    ) {
+        changeFaultReportNumber(faultNo)
+        changeFaultReportStatus(status)
+        binding.tilDateAndTime.editText?.setText(reqDate)
+        binding.tilSiteCode.editText?.setText(reqSite)
+        binding.tilReportedBy.editText?.setText(requestor)
+        binding.tilAssetId.editText?.setText(assetId)
+        binding.tilHourmeter.editText?.setText(hourmeter)
+        binding.tilWorkingCondition.editText?.setText(workCondition)
+        binding.tilAccident.editText?.setText(incident)
+        binding.tilBreakdownDescription.editText?.setText(issue)
+
+        loadAssetId(assetId)
+        breakdownItemChecked = breakdownItem
+        userData?.getBreakdownItemList(requireContext(), assetId, this, breakdownItemChecked, assetCategory)
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setInitialData() {
@@ -199,37 +238,41 @@ class CreateFaultReportFragment : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-    private fun addCheckboxBreakdown(breakdownItem: String){
+    private fun addCheckboxBreakdown(breakdownItem: String, checkedBreakdown: ArrayList<String>?){
         val checkboxLayout = layoutInflater.inflate(R.layout.breakdown_item_checkbox, null)
         val checkbox: Chip = checkboxLayout.findViewById(R.id.cbBreakdownItem)
         checkbox.text = breakdownItem
 
+        if (!checkedBreakdown.isNullOrEmpty() && breakdownItem in checkedBreakdown){
+            checkbox.isChecked = true
+        }
+
         checkbox.setOnClickListener{
             if (checkbox.isChecked){
-                breakdownItemChecked.add(breakdownItem)
+                breakdownItemChecked?.add(breakdownItem)
             } else {
-                breakdownItemChecked.remove(breakdownItem)
+                breakdownItemChecked?.remove(breakdownItem)
             }
         }
         binding.cgBreakdownItem.addView(checkboxLayout)
     }
 
-    fun addCheckboxBreakdown(breakdownItemList: ArrayList<String?>){
+    fun addCheckboxBreakdown(breakdownItemList: ArrayList<String?>, checkedBreakdown: ArrayList<String>?){
         binding.cgBreakdownItem.removeAllViews()
         breakdownItemChecked = ArrayList()
         for (item in breakdownItemList){
             if (item != null) {
-                addCheckboxBreakdown(item)
+                addCheckboxBreakdown(item, checkedBreakdown)
             }
         }
     }
 
-    private fun loadAssetId(site: String){
+    private fun loadAssetId(site: String?){
         userData?.getAssetList(requireContext(), site, binding.tilAssetId.editText)
     }
 
     private fun loadBreakdownItem(assetID: String){
-        userData?.getBreakdownItemList(requireContext(), assetID, this)
+        userData?.getBreakdownItemList(requireContext(), assetID, this, null, null)
     }
 
     private fun submitFaultReport(btn: String, faultNo: String?){
@@ -241,7 +284,7 @@ class CreateFaultReportFragment : Fragment() {
         val assetIdStatus = checkNull(binding.tilAssetId.editText)
         val workingConditionStatus = checkNull(binding.tilWorkingCondition.editText)
         val accidentStatus = checkNull(binding.tilAccident.editText)
-        val breakdownItemStatus = breakdownItemChecked.isNotEmpty()
+        val breakdownItemStatus = !breakdownItemChecked.isNullOrEmpty()
 
         val listStatus = listOf(issueStatus, hourmeterStatus, contactNoStatus, siteCodeStatus, assetIdStatus, workingConditionStatus, accidentStatus, breakdownItemStatus)
         val predicate: (Boolean) -> Boolean = { it }
@@ -299,11 +342,9 @@ class CreateFaultReportFragment : Fragment() {
         binding.tvTitle.text = "Fault Report $faultNo"
         val rect = Rect(0, 0, requireView().width, requireView().height)
         view?.requestRectangleOnScreen(rect, false)
-
-        Toast.makeText(requireContext(), "Fault Report Submitted!", Toast.LENGTH_SHORT).show()
     }
 
-    fun changeFaultReportStatus(status: String){
+    fun changeFaultReportStatus(status: String?){
 
         binding.tvStatus.text = status
         when (status){

@@ -65,7 +65,6 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:clickable="false"
-                    android:padding="5dp"
                     android:text="SG37855 - Alex Tan"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -93,7 +92,6 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:clickable="false"
-                    android:padding="5dp"
                     android:text="98765432"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -121,7 +119,6 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:clickable="false"
-                    android:padding="5dp"
                     android:text="14/11/2022, 2:22PM"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -148,7 +145,6 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:focusable="false"
                     android:clickable="false"
                     android:text="CCCCARC"
@@ -179,7 +175,6 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:focusable="false"
                     android:clickable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -208,8 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:clickable="false"
-                    android:padding="5dp"/>
+                    android:clickable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -230,33 +224,59 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-            <ImageView
-                android:layout_width="82dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sakura"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_marginEnd="10dp"/>
-            <ImageView
-                android:layout_width="82dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sakura"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_marginEnd="10dp"/>
-            <ImageView
-                android:layout_width="82dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sakura"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_marginEnd="10dp"/>
-        </LinearLayout>
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/llPictureUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <!--                <ImageView-->
+                <!--                    android:layout_width="82dp"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:src="@drawable/sakura"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="82dp"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:src="@drawable/sakura"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="82dp"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:src="@drawable/sakura"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="82dp"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:src="@drawable/sakura"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="82dp"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:src="@drawable/sakura"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="82dp"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:src="@drawable/sakura"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+            </LinearLayout>
+        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -280,7 +300,6 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:focusable="false"
                     android:clickable="false"
                     android:text="Yes"
@@ -309,7 +328,6 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:focusable="false"
                     android:clickable="false"
                     android:text="No"

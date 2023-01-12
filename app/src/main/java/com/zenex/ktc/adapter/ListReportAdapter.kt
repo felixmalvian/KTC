@@ -11,11 +11,13 @@ import android.widget.ImageButton
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.zenex.ktc.R
 import com.zenex.ktc.api.param.response.ParamGetFaultReportListResponse
 import com.zenex.ktc.fragment.FaultReportFragment
+import com.zenex.ktc.fragment.FaultReportFragmentDirections
 
 class ListReportAdapter(
     private val ctx: Context,
@@ -63,7 +65,8 @@ class ListReportAdapter(
         if (fragment is FaultReportFragment){
             holder.btnFile.setOnClickListener{
 //                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToAssignMechanicFragment("${item.FR_No}", item)
-//                fragment.findNavController().navigate(direction)
+                val direction = FaultReportFragmentDirections.actionFaultReportFragmentToCreateFaultReportFragment(item.id)
+                fragment.findNavController().navigate(direction)
             }
         } else {
             holder.btnFile.visibility = GONE

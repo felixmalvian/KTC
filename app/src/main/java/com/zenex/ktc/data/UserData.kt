@@ -4,13 +4,17 @@ import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.zenex.ktc.R
 import com.zenex.ktc.api.RetrofitClient
 import com.zenex.ktc.api.param.input.*
 import com.zenex.ktc.api.param.response.*
 import com.zenex.ktc.fragment.CreateFaultReportFragment
+import com.zenex.ktc.fragment.CreateFaultReportFragmentDirections
 import com.zenex.ktc.fragment.FaultReportFragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,6 +26,7 @@ class UserData: Serializable {
     private var requestAssetList: Call<ParamGetAssetListResponse>? = null
     private var requestBreakdownItemList: Call<ParamGetBreakdownItemResponse>? = null
     private var requestFaultReportList: Call<ParamGetFaultReportListResponse>? = null
+    private var requestFaultReportDetails: Call<ParamGetFaultReportDetailsResponse>? = null
 
     private var requestCreateFaultReport: Call<ParamCreateFaultReportResponse>? = null
 
@@ -115,18 +120,27 @@ class UserData: Serializable {
         })
     }
 
-    fun getAssetCategory(assetID: String): String? {
+    fun getAssetCategory(assetID: String?): String? {
         val assetDetails = assetListDesc[assetID]
         return assetDetails?.category
     }
 
-    fun getAssetHourmeter(assetID: String): Int? {
+    fun getAssetHourmeter(assetID: String?): Int? {
         val assetDetails = assetListDesc[assetID]
         return assetDetails?.hourmeter
     }
 
-    fun getBreakdownItemList(ctx: Context, assetID: String, fragment: CreateFaultReportFragment?){
-        val category = getAssetCategory(assetID)
+    fun getBreakdownItemList(
+        ctx: Context,
+        assetID: String?,
+        fragment: CreateFaultReportFragment?,
+        checkedBreakdown: ArrayList<String>?,
+        assetCategory: String?
+    ){
+        var category = getAssetCategory(assetID)
+        if (category == null){
+            category = assetCategory
+        }
 
         if (category != null) {
             val paramGetBreakdownItem = ParamGetBreakdownItem()
@@ -149,7 +163,7 @@ class UserData: Serializable {
                         breakdownItemList = body.breakdownItemList
 
                         if (fragment is CreateFaultReportFragment){
-                            fragment.addCheckboxBreakdown(breakdownItemList)
+                            fragment.addCheckboxBreakdown(breakdownItemList, checkedBreakdown)
                         }
                     }
                 }
@@ -194,6 +208,9 @@ class UserData: Serializable {
                                 fragment.changeFaultReportNumber(data.fault_no)
                                 fragment.changeFaultReportStatus(data.fault_status!!)
                                 fragment.disableAllView(true, btn)
+                                Toast.makeText(ctx, "Fault Report Submitted!", Toast.LENGTH_SHORT).show()
+                                val direction = CreateFaultReportFragmentDirections.actionCreateFaultReportFragmentToFaultReportFragment()
+                                fragment.findNavController().navigate(direction)
                             }
                         }
                     }
@@ -300,6 +317,54 @@ class UserData: Serializable {
         else {
             populateFaultReportList(fragment, firstLoad, currentScreen)
         }
+    }
+
+    fun getFaultReportDetails(ctx: Context, fragment: Fragment, faultReportId: String?) {
+        val paramGetFaultReportDetails = ParamGetFaultReportDetails()
+        paramGetFaultReportDetails.id = faultReportId
+
+        requestFaultReportDetails = RetrofitClient.instance.getFaultReportDetails(paramGetFaultReportDetails)
+        requestFaultReportDetails?.enqueue(object: Callback<ParamGetFaultReportDetailsResponse>{
+            override fun onResponse(
+                call: Call<ParamGetFaultReportDetailsResponse>,
+                response: Response<ParamGetFaultReportDetailsResponse>
+            ) {
+                if(response.code() != 200){
+                    AlertDialog.Builder(ctx)
+                        .setTitle("Error")
+                        .setMessage(response.code().toString())
+                        .show()
+                } else {
+                    val body = response.body()!!
+                    if (fragment is CreateFaultReportFragment){
+                        fragment.loadFaultReport(
+                            body.fault_no,
+                            body.req_date,
+                            body.req_site,
+                            body.requestor,
+                            body.status,
+                            body.asset_id,
+                            body.asset_category,
+                            body.hourmeter,
+                            body.work_condition,
+                            body.issue,
+                            body.incident,
+                            body.breakdown_item
+                        )
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ParamGetFaultReportDetailsResponse>, t: Throwable) {
+                if (!call.isCanceled) {
+                    AlertDialog.Builder(ctx)
+                        .setTitle("Error")
+                        .setMessage(t.message)
+                        .show()
+                }
+            }
+
+        })
     }
 
 }

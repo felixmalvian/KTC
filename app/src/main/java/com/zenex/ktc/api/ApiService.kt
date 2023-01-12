@@ -33,6 +33,9 @@ interface ApiService {
 
     @POST("api/GetFaultReportList")
     fun getFaultReportList(@Body paramGetFaultReportList: ParamGetFaultReportList): Call<ParamGetFaultReportListResponse>
+
+    @POST("api/GetFaultReportDetails")
+    fun getFaultReportDetails(@Body paramGetFaultReportDetails: ParamGetFaultReportDetails): Call<ParamGetFaultReportDetailsResponse>
 }
 
 private class UvCookieJar: CookieJar {

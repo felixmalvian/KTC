@@ -28,9 +28,8 @@
         android:label="fragment_create_fault_report"
         tools:layout="@layout/fragment_create_fault_report" >
         <action
-            android:id="@+id/action_createFaultReportFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment" />
+            android:id="@+id/action_createFaultReportFragment_to_faultReportFragment"
+            app:destination="@id/faultReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/faultReportFragment"
@@ -51,6 +50,18 @@
             <argument
                 android:name="asset_id"
                 app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_faultReportFragment_to_createFaultReportFragment"
+            app:destination="@id/createFaultReportFragment" >
+            <argument
+                android:name="mode"
+                app:argType="string"
+                android:defaultValue="edit"/>
+            <argument
+                android:name="id"
+                app:argType="string"
+                app:nullable="true"/>
         </action>
     </fragment>
     <fragment
