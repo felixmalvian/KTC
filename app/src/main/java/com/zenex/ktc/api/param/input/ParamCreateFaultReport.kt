@@ -21,6 +21,7 @@ class ParamCreateFaultReport {
     var foreman: String? = null
     var wsho: String? = null
     var create_by: String? = null
+    var other_remarks: String? = null
 
     var breakdown_item: ArrayList<String>? = null
 }

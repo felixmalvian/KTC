@@ -446,6 +446,7 @@
                 android:gravity="center_vertical"
                 android:text="Other Remarks:"/>
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilOtherRemarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="false">

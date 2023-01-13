@@ -49,6 +49,7 @@ class CreateFaultReportFragment : Fragment() {
     private val dummyData = DummyData()
 
     var faultNo: String = ""
+    var assetCategory: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,6 +132,7 @@ class CreateFaultReportFragment : Fragment() {
         workCondition: String?,
         issue: String?,
         incident: String?,
+        otherRemarks: String?,
         breakdownItem: ArrayList<String>?
     ) {
         changeFaultReportNumber(faultNo)
@@ -144,10 +146,12 @@ class CreateFaultReportFragment : Fragment() {
         binding.tilWorkingCondition.editText?.setText(workCondition)
         binding.tilAccident.editText?.setText(incident)
         binding.tilBreakdownDescription.editText?.setText(issue)
+        binding.tilOtherRemarks.editText?.setText(otherRemarks)
 
         loadAssetId(assetId)
         breakdownItemChecked = breakdownItem
         userData?.getBreakdownItemList(requireContext(), assetId, this, breakdownItemChecked, assetCategory)
+        this.assetCategory = assetCategory
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -315,7 +319,11 @@ class CreateFaultReportFragment : Fragment() {
             paramCreateFaultReport.req_site = binding.tilSiteCode.editText?.text.toString()
             paramCreateFaultReport.requestor = binding.tilReportedBy.editText?.text.toString()
             paramCreateFaultReport.status = reportStatus
+
             paramCreateFaultReport.asset_category = userData?.getAssetCategory(binding.tilAssetId.editText?.text.toString())
+            if (paramCreateFaultReport.asset_category.isNullOrBlank()){
+                paramCreateFaultReport.asset_category = this.assetCategory
+            }
             paramCreateFaultReport.asset_id = binding.tilAssetId.editText?.text.toString()
             paramCreateFaultReport.hourmeter = binding.tilHourmeter.editText?.text.toString()
             paramCreateFaultReport.work_condition = binding.tilWorkingCondition.editText?.text.toString()
@@ -329,6 +337,7 @@ class CreateFaultReportFragment : Fragment() {
             paramCreateFaultReport.foreman = ""
             paramCreateFaultReport.wsho = ""
             paramCreateFaultReport.create_by = binding.tilReportedBy.editText?.text.toString()
+            paramCreateFaultReport.other_remarks = binding.tilOtherRemarks.editText?.text.toString()
             paramCreateFaultReport.breakdown_item = breakdownItemChecked
 
             userData?.submitFaultReport(requireContext(), paramCreateFaultReport, this, btn)

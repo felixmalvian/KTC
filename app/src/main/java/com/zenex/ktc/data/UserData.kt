@@ -356,6 +356,7 @@ class UserData: Serializable {
                             body.work_condition,
                             body.issue,
                             body.incident,
+                            body.other_remarks,
                             body.breakdown_item
                         )
                     }
