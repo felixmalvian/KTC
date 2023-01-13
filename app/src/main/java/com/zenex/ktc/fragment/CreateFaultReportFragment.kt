@@ -32,6 +32,7 @@ import com.zenex.ktc.api.param.input.ParamCreateFaultReport
 import com.zenex.ktc.data.DummyData
 import com.zenex.ktc.data.UserData
 import com.zenex.ktc.databinding.FragmentCreateFaultReportBinding
+import kotlinx.coroutines.NonCancellable.children
 import java.io.FileDescriptor
 import java.io.IOException
 import java.time.LocalDateTime
@@ -104,19 +105,19 @@ class CreateFaultReportFragment : Fragment() {
             val faultReportId = arguments?.get("id") as String?
             userData?.getFaultReportDetails(requireContext(), this, faultReportId)
 
-            when (arguments?.get("status")){
-                "PROCESSING" -> {
-                    disableAllView(true, null)
-                    binding.btnSubmit.visibility = GONE
-                    binding.btnSave.visibility = GONE
-                }
-
-                "COMPLETED" -> {
-                    disableAllView(true, null)
-                    binding.btnSubmit.visibility = GONE
-                    binding.btnSave.visibility = GONE
-                }
-            }
+//            when (arguments?.get("status")){
+//                "PROCESSING" -> {
+//                    disableAllView(true, null)
+//                    binding.btnSubmit.visibility = GONE
+//                    binding.btnSave.visibility = GONE
+//                }
+//
+//                "COMPLETED" -> {
+//                    disableAllView(true, null)
+//                    binding.btnSubmit.visibility = GONE
+//                    binding.btnSave.visibility = GONE
+//                }
+//            }
         }
     }
     fun loadFaultReport(
@@ -152,6 +153,20 @@ class CreateFaultReportFragment : Fragment() {
         breakdownItemChecked = breakdownItem
         userData?.getBreakdownItemList(requireContext(), assetId, this, breakdownItemChecked, assetCategory)
         this.assetCategory = assetCategory
+
+        when (arguments?.get("status")){
+            "PROCESSING" -> {
+                disableAllView(true, null)
+                binding.btnSubmit.visibility = GONE
+                binding.btnSave.visibility = GONE
+            }
+
+            "COMPLETED" -> {
+                disableAllView(true, null)
+                binding.btnSubmit.visibility = GONE
+                binding.btnSave.visibility = GONE
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
