@@ -151,8 +151,28 @@ class CreateFaultReportFragment : Fragment() {
 
         loadAssetId(assetId)
         breakdownItemChecked = breakdownItem
-        userData?.getBreakdownItemList(requireContext(), assetId, this, breakdownItemChecked, assetCategory)
+        userData?.getBreakdownItemList(requireContext(), assetId, this, breakdownItemChecked, assetCategory, status)
         this.assetCategory = assetCategory
+
+        setScreenByStatus(status)
+    }
+
+    private fun setScreenByStatus(status: String?){
+        if(!status.isNullOrEmpty()){
+            when (status){
+                "PROCESSING" -> {
+                    disableAllView(true, null)
+                    binding.btnSubmit.visibility = GONE
+                    binding.btnSave.visibility = GONE
+                }
+
+                "COMPLETED" -> {
+                    disableAllView(true, null)
+                    binding.btnSubmit.visibility = GONE
+                    binding.btnSave.visibility = GONE
+                }
+            }
+        }
 
         when (arguments?.get("status")){
             "PROCESSING" -> {
@@ -273,7 +293,7 @@ class CreateFaultReportFragment : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-    private fun addCheckboxBreakdown(breakdownItem: String, checkedBreakdown: ArrayList<String>?){
+    private fun addCheckboxBreakdown(breakdownItem: String, checkedBreakdown: ArrayList<String>?, status: String?){
         val checkboxLayout = layoutInflater.inflate(R.layout.breakdown_item_checkbox, null)
         val checkbox: Chip = checkboxLayout.findViewById(R.id.cbBreakdownItem)
         checkbox.text = breakdownItem
@@ -289,10 +309,26 @@ class CreateFaultReportFragment : Fragment() {
                 breakdownItemChecked?.remove(breakdownItem)
             }
         }
+
+
+        if(!status.isNullOrEmpty()){
+            when (status){
+                "PROCESSING" -> {
+                    checkbox.isClickable = false
+                    checkbox.isFocusable = false
+                }
+
+                "COMPLETED" -> {
+                    checkbox.isClickable = false
+                    checkbox.isFocusable = false
+                }
+            }
+        }
+
         binding.cgBreakdownItem.addView(checkboxLayout)
     }
 
-    fun addCheckboxBreakdown(breakdownItemList: ArrayList<String?>, checkedBreakdown: ArrayList<String>?){
+    fun addCheckboxBreakdown(breakdownItemList: ArrayList<String?>, checkedBreakdown: ArrayList<String>?, status: String?){
         binding.cgBreakdownItem.removeAllViews()
         breakdownItemChecked = ArrayList()
         if (checkedBreakdown != null) {
@@ -300,7 +336,7 @@ class CreateFaultReportFragment : Fragment() {
         }
         for (item in breakdownItemList){
             if (item != null) {
-                addCheckboxBreakdown(item, checkedBreakdown)
+                addCheckboxBreakdown(item, checkedBreakdown, status)
             }
         }
     }
@@ -310,7 +346,7 @@ class CreateFaultReportFragment : Fragment() {
     }
 
     private fun loadBreakdownItem(assetID: String){
-        userData?.getBreakdownItemList(requireContext(), assetID, this, null, null)
+        userData?.getBreakdownItemList(requireContext(), assetID, this, null, null, null)
     }
 
     private fun submitFaultReport(btn: String, faultNo: String?){
@@ -453,5 +489,6 @@ class CreateFaultReportFragment : Fragment() {
 
 
     }
+
 
 }

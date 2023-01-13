@@ -135,7 +135,8 @@ class UserData: Serializable {
         assetID: String?,
         fragment: CreateFaultReportFragment?,
         checkedBreakdown: ArrayList<String>?,
-        assetCategory: String?
+        assetCategory: String?,
+        status: String?
     ){
         var category = getAssetCategory(assetID)
         if (category == null){
@@ -163,7 +164,7 @@ class UserData: Serializable {
                         breakdownItemList = body.breakdownItemList
 
                         if (fragment is CreateFaultReportFragment){
-                            fragment.addCheckboxBreakdown(breakdownItemList, checkedBreakdown)
+                            fragment.addCheckboxBreakdown(breakdownItemList, checkedBreakdown, status)
                         }
                     }
                 }
